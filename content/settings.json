@@ -1,9 +1,9 @@
 {
   "title": "Collage CMS Content",
-  "url": "https://hankei6km.github.io/test-collage-cms-content",
+  "url": "https://mix2box.sdf10.home:8082/rm30_3000/",
   "logo": {
-    "light": "/logo-light.svg",
-    "dark": "/logo-dark.svg"
+    "light": "/rm30_3000/test-collage-cms-content-logo-light.svg",
+    "dark": "/rm30_3000/test-collage-cms-content-logo-dark.svg"
   },
   "github": "hankei6km/remote-cms-content",
   "twitter": "@hankei6km"

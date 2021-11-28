@@ -1,0 +1,10 @@
+{
+  "title": "Collage CMS Content",
+  "url": "https://hankei6km.github.io/test-collage-cms-content",
+  "logo": {
+    "light": "/test-collage-cms-content-logo-light.svg",
+    "dark": "/test-collage-cms-content-logo-dark.svg"
+  },
+  "github": "hankei6km/remote-cms-content",
+  "twitter": "@hankei6km"
+}
