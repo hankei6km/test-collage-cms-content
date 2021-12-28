@@ -39,8 +39,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Save remote contents
-      run: npm run save:contents
+    - name: Save remote content
+      run: npm run save:content
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASE_PATH: ${{ secrets.BASE_PATH }}
