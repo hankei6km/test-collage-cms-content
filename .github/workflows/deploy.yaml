@@ -1,0 +1,85 @@
+name: deplpoy
+on:
+  push:
+  repository_dispatch:
+    # types: [opened, deleted]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main'  && 'pages' || 'pages-staging' }}
+    # repository_dispatch しか使えないならいらない?
+    # if: github.ref == 'refs/heads/main'
+
+    steps:
+    - run: echo "${{ github.event.action }}"
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 14
+      uses: actions/setup-node@v2
+      with:
+         node-version: 14
+
+    # https://docs.github.com/ja/free-pro-team@latest/actions/guides/caching-dependencies-to-speed-up-workflows
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        # npm キャッシュファイルは Linux/macOS の「~/.npm」に保存される
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+
+    - name: Install modules
+      run: npm install
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Save remote content
+      run: npm run save:content
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BASE_PATH: ${{ secrets.BASE_PATH }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        RCC_CTF_CLIENT_KIND: ${{ secrets.RCC_CTF_CLIENT_KIND }}
+        RCC_CTF_API_BASE_URL: ${{ secrets.RCC_CTF_API_BASE_URL }}
+        RCC_CTF_CREDENTIAL__0: ${{ secrets.RCC_CTF_CREDENTIAL__0 }}
+        RCC_CTF_CREDENTIAL__1: ${{ secrets.RCC_CTF_CREDENTIAL__1 }}
+        RCC_CTF_QUERY__0: ${{ secrets.RCC_CTF_QUERY__0 }}
+        RCC_CTF_QUERY__1: ${{ secrets.RCC_CTF_QUERY__1 }}
+        RCC_GCMS_CLIENT_KIND: ${{ secrets.RCC_GCMS_CLIENT_KIND }}
+        RCC_GCMS_API_BASE_URL: ${{ secrets.RCC_GCMS_API_BASE_URL }}
+        RCC_GCMS_CREDENTIAL__0: ${{ secrets.RCC_GCMS_CREDENTIAL__0 }}
+        RCC_GCMS_CREDENTIAL__1: ${{ secrets.RCC_GCMS_CREDENTIAL__1 }}
+        RCC_GCMS_MAP_CONFIG: ${{ secrets.RCC_GCMS_MAP_CONFIG }}
+        RCC_GCMS_QUERY__0: ${{ secrets.RCC_GCMS_QUERY__0 }}
+        RCC_MICROCMS_CLIENT_KIND: ${{ secrets.RCC_MICROCMS_CLIENT_KIND }}
+        RCC_MICROCMS_API_BASE_URL: ${{ secrets.RCC_MICROCMS_API_BASE_URL }}
+        RCC_MICROCMS_CREDENTIAL__0: ${{ secrets.RCC_MICROCMS_CREDENTIAL__0 }}
+        RCC_MICROCMS_CREDENTIAL__1: ${{ secrets.RCC_MICROCMS_CREDENTIAL__1 }}
+        RCC_PRISMIC_CLIENT_KIND: ${{ secrets.RCC_PRISMIC_CLIENT_KIND }}
+        RCC_PRISMIC_API_BASE_URL: ${{ secrets.RCC_PRISMIC_API_BASE_URL }}
+        RCC_PRISMIC_CREDENTIAL__0: ${{ secrets.RCC_PRISMIC_CREDENTIAL__0 }}
+        RCC_PRISMIC_CREDENTIAL__1: ${{ secrets.RCC_PRISMIC_CREDENTIAL__1 }}
+        RCC_PRISMIC_QUERY__0: ${{ secrets.RCC_PRISMIC_QUERY__0 }}
+
+    - name: Run generate
+      run: npm run generate
+      env:
+        BASE_PATH: ${{ secrets.BASE_PATH }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
+        destination_dir: ${{ secrets.STAGING_DIR }}
+        publish_branch: gh-pages
+        force_orphan: ${{ github.ref == 'refs/heads/main' }}
+

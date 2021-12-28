@@ -1,0 +1,31 @@
+query getContent(
+  $locale: Locale!
+  $slug: String!
+  $stage: Stage!
+  $skip: Int
+  $pageSize: Int
+) {
+  collection(locales: [$locale], stage: $stage, where: { slug: $slug }) {
+    id
+    contents(skip: $skip, first: $pageSize) {
+      id
+      slug
+      createdAt
+      updatedAt
+      title
+      content {
+        html
+      }
+      description
+      fullscreen
+      version
+      menuTitle
+      subtitle
+      badge
+      list
+      category {
+        title
+      }
+    }
+  }
+}

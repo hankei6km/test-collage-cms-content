@@ -1,0 +1,68 @@
+passthruUnmapped: false
+
+media:
+  image:
+    library:
+      - src: https://images.microcms-assets.io/assets/
+        kind: imgix
+
+# items フィールドがルート直下になるように変形する.
+transform: data.collection{"items":[contents]}
+
+flds:
+  - query: $replace(slug, /^[^-]+-/, "")
+    dstName: id
+    fldType: id
+    #replace:
+    #pattern: collage-
+    #replacement: ""
+
+  - query: title
+    dstName: title
+    fldType: string
+
+  # RichText を HTML として扱う.
+  # GraphCMS では html field を取得すると HTML が格納されている .
+  - query: content.html
+    dstName: content
+    fldType: html
+    convert: none
+    toMarkdownOpts:
+      # 画像の属性(widht と height)を alt 属性へ埋め込む.
+      imageSalt:
+        - command: embed
+          baseURL: https://media.graphcms.com/
+          embed:
+            embedTo: alt
+
+  - query: description
+    dstName: description
+    fldType: string
+
+  - query: category.title
+    dstName: category
+    fldType: string
+
+  - query: fullscreen
+    dstName: fullscreen
+    fldType: boolean
+
+  - query: version
+    dstName: version
+    fldType: string
+
+  - query: menuTitle
+    dstName: menuTitle
+    fldType: string
+
+  - query: subtitle
+    dstName: subtitle
+    fldType: string
+
+  - query: badge
+    dstName: badge
+    fldType: string
+
+  - query: list
+    dstName: list
+    fldType: object

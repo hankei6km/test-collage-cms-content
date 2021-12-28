@@ -1,0 +1,73 @@
+passthruUnmapped: false
+selectFldsToFetch: true
+
+media:
+  image:
+    library:
+      - src: https://images.microcms-assets.io/assets/
+        kind: imgix
+
+flds:
+  - fetchFld: id
+    query: $replace(id, /^[^-]+-/, "")
+    dstName: id
+    fldType: id
+
+  - fetchFld: title
+    query: title
+    dstName: title
+    fldType: string
+
+  # RichEditor 出力を HTML として扱う.
+  - fetchFld: content
+    query: content
+    dstName: content
+    fldType: html
+    convert: none
+    toMarkdownOpts:
+      # 画像の属性(widht と height)を alt 属性へ埋め込む.
+      imageSalt:
+        - command: embed
+          baseURL: https://images.microcms-assets.io/assets/
+          embed:
+            embedTo: alt
+
+  - fetchFld: description
+    query: description
+    dstName: description
+    fldType: string
+
+  - fetchFld: category.label
+    query: category.label["ja" in lang].label
+    dstName: category
+    fldType: string
+
+  - fetchFld: fullscreen
+    query: fullscreen
+    dstName: fullscreen
+    fldType: boolean
+
+  - fetchFld: version
+    query: version
+    dstName: version
+    fldType: string
+
+  - fetchFld: menuTitle
+    query: menuTitle
+    dstName: menuTitle
+    fldType: string
+
+  - fetchFld: subtitle
+    query: subtitle
+    dstName: subtitle
+    fldType: string
+
+  - fetchFld: badge
+    query: badge
+    dstName: badge
+    fldType: string
+
+  - fetchFld: list
+    query: '$count(list)>0 ? list{title:items[fieldId="item"].item} : {}'
+    dstName: list
+    fldType: object

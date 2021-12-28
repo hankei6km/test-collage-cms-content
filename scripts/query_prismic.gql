@@ -1,0 +1,35 @@
+query getContent($uid: String!) {
+  collection(uid: $uid, lang: "ja-jp") {
+    _meta {
+      id
+    }
+    collection {
+      link {
+        ... on Content {
+          _meta {
+            id
+            uid
+            firstPublicationDate
+            lastPublicationDate
+          }
+          title
+          content
+          description
+          category {
+            ... on Category {
+              title
+            }
+          }
+          fullscreen
+          version
+          menutitle
+          subtitle
+          badge
+          list {
+            item
+          }
+        }
+      }
+    }
+  }
+}
