@@ -1,27 +1,13 @@
 # test-collage-cms-content
 
-## Setup
+リモート CMS(ヘッドレス CMS) で作成したコンテンツを [nuxt-content](https://content.nuxtjs.org/ja) で利用するツール([remote-cms-content](https://github.com/hankei6km/remote-cms-content))を作っています。
 
-Install dependencies:
+その検証としてテスト用のページを作っているのですが、良い機会なので各 CMS の RichText 系フィールドで作成したものをまとめてみました。
 
-```bash
-npm run install
-```
+[📖 まとめたものを確認する](https://hankei6km.github.io/test-collage-cms-content/)
 
-## Development
 
-```bash
-npm run dev
-```
+## 概要
 
-## Static Generation
+ページ生成方法などは「[各種 Headless CMS の RichText 系フィールドで作ったページをまとめてみた](https://zenn.dev/hankei6km/articles/test-collage-cms-content)」に記載しています
 
-This will create the `dist/` directory for publishing to static hosting:
-
-```bash
-npm run generate
-```
-
-To preview the static generated app, run `npm run start`
-
-For detailed explanation on how things work, checkout [nuxt/content](https://content.nuxtjs.org) and [@nuxt/content theme docs](https://content.nuxtjs.org/themes-docs).
