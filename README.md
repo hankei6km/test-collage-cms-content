@@ -9,5 +9,5 @@
 
 ## 概要
 
-ページ生成方法などは「ここにZennの記事」に記載しています
+ページ生成方法などは「[各種 Headless CMS の RichText 系フィールドで作ったページをまとめてみた](https://zenn.dev/hankei6km/articles/test-collage-cms-content)」に記載しています
 
